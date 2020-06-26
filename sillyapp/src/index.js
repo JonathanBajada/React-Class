@@ -8,16 +8,33 @@ class App extends React.Component {
   constructor(props){
     super(props);//must call this, con func overrides react.comp, we use super to reference react.comp
      
-    this.state = {lat: null};
+    this.state = {
+      lat: null,
+      errorMessage: ""
+    };//our state object
+
+    //we put this here so that the location is updated before jsx is rendered second time
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => { 
+        console.log(position);
+          this.setState({ lat: position.coords.latitude });
+      },
+      (err) => {
+        this.setState({ errorMessage: err.message})
+        console.log(err)
+      }
+    );
   }
 
   // React says we have to define render!! if we dont define react with throw error
   render() {
-    window.navigator.geolocation.getCurrentPosition(
-      (position)=> console.log(position),
-      (err) => console.log(err)
-  );
-    return <div>Latitude: </div>
+    return (
+    <div>
+      Latitude: {this.state.lat}
+      <br/>
+      Error: {this.state.errorMessage}
+    </div>
+    );
   }
 }
 
