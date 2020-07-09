@@ -1,5 +1,19 @@
 import React from 'react';
+import './SeasonDisplay.css';
 
+//config object
+const seasonConfig = {
+	summer: {
+		text: 'Lets hit the beach',
+		iconName: 'sun'
+	},
+	winter: {
+		text: 'burr  it is cold!',
+		iconName: 'snowflake'
+	}
+};
+
+//helper function
 const getSeason = (lat, month) => {
 	if (month > 2 && month < 9) {
 		return lat > 0 ? 'summer' : 'winter';
@@ -10,8 +24,23 @@ const getSeason = (lat, month) => {
 
 const SeasonDisplay = (props) => {
 	const season = getSeason(props.lat, new Date().getMonth());
-	console.log(season);
-	return <div>Season Display</div>;
+	const { text, iconName } = seasonConfig[season];
+
+	return (
+		<div className={`season-display ${season}`}>
+			<i className={`icon-left massive ${iconName} icon`} />
+			<h1>{text}</h1>
+			<i className={`icon-right massive ${iconName} icon`} />
+		</div>
+	);
 };
 
 export default SeasonDisplay;
+
+/*
+Ternary Expressions in JSX
+if statement
+season === 'winter' ? 'Burr, it  is chilly' : 'lets hit the beach'
+
+ROOT DIV className = component name
+*/
